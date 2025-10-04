@@ -18,11 +18,12 @@ namespace Trading_System
         // Represents a single trade request
         public class TradeData
         {
-            public string SenderEmail { get; set; } = string.Empty;
-            public string ReceiverEmail { get; set; } = string.Empty;
-            public string SenderItemName { get; set; } = string.Empty;
-            public string ReceiverItemName { get; set; } = string.Empty;
-            public TradeStatus Status { get; set; }
+            public string SenderEmail { get; set; } = string.Empty;            // Email of the user who starts the trade
+            public string ReceiverEmail { get; set; } = string.Empty;          // Email of the user receiving the trade
+            public string SenderItemName { get; set; } = string.Empty;         // Item offered by the sender
+            public string ReceiverItemName { get; set; } = string.Empty;       // Item requested from the receiver
+            public TradeStatus Status { get; set; }                           // Current status of the trade
+}                    
         }
 
         // File path for trade storage
@@ -42,7 +43,8 @@ namespace Trading_System
             string senderItem = Console.ReadLine() ?? "";
             Console.Write("Enter receiver's item name: ");
             string receiverItem = Console.ReadLine() ?? "";
-
+            
+          // create and add new trade to the List
             Trades.Add(new TradeData
             {
                 SenderEmail = senderEmail,
@@ -52,7 +54,7 @@ namespace Trading_System
                 Status = TradeStatus.Pending
             });
 
-            SaveToFile();
+            SaveToFile();      // Save immediately after change
             Console.WriteLine("Trade request sent.");
         }
 
@@ -89,7 +91,7 @@ namespace Trading_System
                 if (t.ReceiverEmail == currentUserEmail && t.SenderEmail == senderEmail && t.Status == TradeStatus.Pending)
                 {
                     t.Status = TradeStatus.Accepted;
-                    SaveToFile();
+                    SaveToFile();         // Save after status change
                     Console.WriteLine("Trade accepted.");
                     return;
                 }
